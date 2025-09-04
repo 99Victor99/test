@@ -1,0 +1,6 @@
+{"level":"info","time":"2024-10-06T21:15:35.691+0800","caller":"zapcore/log2.go:15","msg":"This is an info log"}
+{"level":"warn","time":"2024-10-06T21:15:35.691+0800","caller":"zapcore/log2.go:16","msg":"This is a warning log"}
+{"level":"error","time":"2024-10-06T21:15:35.691+0800","caller":"zapcore/log2.go:17","msg":"This is an error log"}
+{"level":"info","time":"2024-10-06T21:15:40.800+0800","caller":"zapcore/log2.go:15","msg":"This is an info log"}
+{"level":"warn","time":"2024-10-06T21:15:40.800+0800","caller":"zapcore/log2.go:16","msg":"This is a warning log"}
+{"level":"error","time":"2024-10-06T21:15:40.800+0800","caller":"zapcore/log2.go:17","msg":"This is an error log"}

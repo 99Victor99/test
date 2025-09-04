@@ -1,0 +1,21 @@
+graph TD
+%% 接入层
+    A[CDN] -->|域名组1/域名组2| B[Nginx集群]
+    B -->|HTTP/HTTPS| C[Gateway集群]
+    C -->|WSS| D[聊天服务]
+
+%% 双服务层（容灾）
+    C -->|gRPC| E[Core-接口层-A]
+    C -->|gRPC| F[Core-接口层-B]
+    E -->|HTTP/gRPC| G[后台管理]
+    F -->|HTTP/gRPC| G
+
+%% 数据层
+    E -->|读写| H[(MySQL)]
+    F -->|读写| H
+    E -->|日志| I[(Kafka)]
+    F -->|日志| I
+
+%% 下沉消费
+    I -->|订阅| J[Sink服务]
+    J -->|任务调度| K[消费任务]

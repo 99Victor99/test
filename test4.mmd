@@ -1,0 +1,22 @@
+graph TD
+%% 接入层
+    A[CDN] --> B[Nginx]
+    B --> C1[Gateway-A]
+    B --> C2[Gateway-B]
+    B --> F[管理平台]
+
+%% 双集群核心服务（通过节点分组实现）
+    D1[Core-A] -.->|gRPC| G{双活集群}
+    D2[Core-B] -.->|gRPC| G
+    G --> H[(MySQL)]
+    G --> K[(Kafka)]
+
+%% 连接线
+    C1 --> D1
+    C2 --> D2
+    F --> D1 & D2
+    H --> S1[Sink-A]
+    K --> S2[Sink-B]
+
+%% 隐藏样式节点（模拟虚线框）
+    style G fill:none,stroke:#aaa,stroke-dasharray:5

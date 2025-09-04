@@ -1,0 +1,19 @@
+sequenceDiagram
+participant XA as XA 事务
+participant DB as InnoDB 锁管理器
+participant Local as 本地事务
+
+    Note over XA: XA START (不加锁)
+    XA->>DB: UPDATE t SET ... WHERE id=1
+    DB-->>XA: 获得行锁(id=1)
+
+    Note over Local: 本地事务开始
+    Local->>DB: SELECT * FROM t WHERE id=1 FOR UPDATE
+    DB-->>Local: 等待锁(id=1) (阻塞)
+
+    Note over XA: XA PREPARE (锁仍持有，未释放)
+    Local-->>Local: 等待超时 或 死锁检测回滚
+
+    Note over XA: XA COMMIT
+    DB-->>XA: 释放行锁(id=1)
+    DB-->>Local: 锁可用，本地事务继续

@@ -1,0 +1,17 @@
+syntax = "proto3"; // 指定proto版本
+option go_package = "./api/goods;goods"; // 指定golang包名
+
+package good.ser; // 指定服务名
+// 定义goods服务
+// => 相当于 go 中的 type GoodsService interface{}
+service GoodsService {
+  // => 相当于go中 接口的结构体内
+  rpc Get(Goods) returns (Goods){}
+}
+// 定义信息体
+// => 相当于 go 中的 type Goods struct{}
+message Goods{
+  // => 相当于go中 结构体的内容
+  int32 id = 1;
+  string name = 2;
+}

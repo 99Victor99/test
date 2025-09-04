@@ -1,0 +1,45 @@
+graph TD
+
+%% 接入层
+    A[CDN全球节点] -->|智能DNS| B[Nginx集群]
+    B -->|wss负载均衡| GA[服务集群A]
+    B -->|wss负载均衡| GB[服务集群B]
+    B -->|HTTPS负载均衡| F[前台 管理平台]
+
+%% 服务集群 A
+    subgraph 服务集群A
+        GA1[Gateway集群A]
+        GA2[Core服务集群A]
+        GA3[Sink服务A]
+        GA --> GA1 --> GA2 --> GA3
+    end
+
+%% 服务集群 B
+    subgraph 服务集群B
+        GB1[Gateway集群B]
+        GB2[Core服务集群B]
+        GB3[Sink服务B]
+        GB --> GB1 --> GB2 --> GB3
+    end
+
+%% 管理平台进入任一系统
+    F -->|HTTPS负载均衡| GA2
+    F -->|HTTPS负载均衡| GB2
+
+%% 数据层
+    GA2 -->|读写分离| I1[(MySQL集群:\n1主1从)]
+    GB2 -->|读写分离| I1
+    GA2 -->|异步任务| H[(Kafka集群)]
+    GB2 -->|异步任务| H
+    GA2 -->|缓存读写| I3[(Redis集群:\n动态节点)]
+    GB2 -->|缓存读写| I3
+    GA2 -->|聊天大数据| I4[(ScyllaDB集群)]
+    GB2 -->|聊天大数据| I4
+    GA2 -->|统计数据| I5[(ClickHouse集群)]
+    GB2 -->|统计数据| I5
+    GA2 -->|日志收集| I6[(ELK)]
+    GB2 -->|日志收集| I6
+
+%% 消费层
+    H -->|消费者组| J1[Sink消费服务]
+    H -->|消费者组| J2[定时任务与消费]

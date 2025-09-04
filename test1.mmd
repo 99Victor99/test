@@ -1,0 +1,34 @@
+graph TD
+%% 接入层
+    A[CDN全球节点] -->|智能DNS| B[Nginx集群]
+    subgraph 双活Gateway集群
+        C1[Gateway集群A]
+        C2[Gateway集群B]
+    end
+    B -->|wss负载均衡| C[消息收发]
+    C --> C1 & C2[Gateway集群]
+    subgraph 双活core集群: 前台 管理平台
+        D1[core集群A]
+        D2[core集群B]
+    end
+    B -->|HTTPS负载均衡| D[前台 管理平台]
+
+    %% 隐藏虚拟节点
+    style C fill:none,stroke:none
+    style D fill:none,stroke:none
+
+%% 服务层
+    C1 & C2 -->|grpc slb负载均衡| G[Core服务组]
+    D --> D1 & D2
+
+%% 数据层
+    G -->|读写分离| I1[(MySQL集群:\n1主1从)]
+    G -->|异步任务| H[(Kafka集群)]
+    G -->|缓存读写| I3[(Redis集群)]
+    G -->|消息大数据| I4[(scylladb集群)]
+    G -->|统计数据| I5[(clickhouse)]
+    G -->|日志收集| I6[(ELK)]
+
+%% 消费层
+    H -->|消费者组| J1[Sink消费服务]
+    H -->|消费者组| J2[定时任务与消费]
