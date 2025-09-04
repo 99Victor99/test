@@ -21,3 +21,9 @@ message Good2s{
   int32 id = 1;
   string name = 2;
 }
+
+message Good3s{
+  // => 相当于go中 结构体的内容
+  int32 id = 1;
+  string name = 2;
+}
