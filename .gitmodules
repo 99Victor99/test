@@ -7,3 +7,6 @@
 [submodule "proto/orders"]
 	path = proto/orders
 	url = https://github.com/99Victor99/orderproto.git
+[submodule "proto/inventorys"]
+	path = proto/inventorys
+	url = git@github.com:99Victor99/inventoryproto.git
