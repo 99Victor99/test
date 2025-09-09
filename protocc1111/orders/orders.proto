@@ -1,0 +1,18 @@
+syntax = "proto3"; // 指定proto版本
+option go_package = "./api/orders;orders"; // 指定golang包名
+
+package order.ser; // 指定默认包名
+// 定义Orders服务
+// => 相当于 go 中的 type OrdersService interface{}
+service OrdersService {
+  // => 相当于go中 接口的结构体内
+  rpc Get(Orders) returns (Orders){}
+}
+// 定义信息体
+// => 相当于 go 中的 type Orders struct{}
+message Orders{
+  // => 相当于go中 结构体的内容
+  int32 id = 1;
+  string no = 2;
+  float price = 3;
+}

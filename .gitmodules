@@ -1,0 +1,9 @@
+[submodule "proto/goods"]
+	path = proto/goods
+	url = https://github.com/99Victor99/goodsproto.git
+[submodule "proto/users"]
+	path = proto/users
+	url = https://github.com/99Victor99/userproto.git
+[submodule "proto/orders"]
+	path = proto/orders
+	url = https://github.com/99Victor99/orderproto.git
