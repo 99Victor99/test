@@ -38,3 +38,4 @@ echo "6. 清理 Git 配置"
 git config --remove-section "submodule.$SUBMODULE_PATH" 2>/dev/null || echo "   没有配置需要清理"
 
 echo "清理完成！现在可以重新添加子模块了。"
+
